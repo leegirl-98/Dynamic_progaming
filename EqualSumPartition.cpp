@@ -1,19 +1,21 @@
 #include<bits/stdc++.h>
 using namespace std;
-int counofsubsetsum(int arr[],int sum,int n)
+
+
+bool subsetsum(int arr[],int sum,int n)
 {
-    int t[n+1][sum+1];
+    bool t[n+1][sum+1];
     for(int i=0;i<=n;i++)
     {
         for(int j=0;j<=sum;j++)
         {
             if(i==0)
             {
-                t[0][j]=0;
+                t[0][j]= false;
             }
             if(j==0)
             {
-                t[i][0]=1;
+                t[i][0]= true;
             }
         }
     }
@@ -23,11 +25,11 @@ int counofsubsetsum(int arr[],int sum,int n)
         {
             if(arr[i-1]<=j)
             {
-                t[i][j]=t[i-1][j-arr[i-1]]+t[i-1][j];//respectively...include kiya or include nhi kiya i jo h vo array ko represent krra h
+                t[i][j]=t[i-1][j-arr[i-1]]||t[i-1][j];
             }
             else
             {
-                t[i][j]=t[i-1][j];
+                 t[i][j]=t[i-1][j];
             }
         }
     }
@@ -35,8 +37,19 @@ int counofsubsetsum(int arr[],int sum,int n)
 }
 int main()
 {
-    int arr[]={2,3,5,6,8,10};
-    int n=6;
-    int sum=10;
-    cout<<counofsubsetsum(arr,sum,n);
+    int arr[]={1,5,11,5};
+    int n=4;
+    int sum=0;
+    for(int i=0;i<n;i++)
+    {
+        sum+=arr[i];
+    }
+    if(sum%2!=0)
+    {
+        cout<<"NOT POSSIBLE";
+    }
+    if(sum%2==0)
+    {
+        cout<<subsetsum(arr,sum/2,n);
+    }
 }
